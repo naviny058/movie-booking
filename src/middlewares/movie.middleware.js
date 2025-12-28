@@ -14,7 +14,7 @@ const { STATUS } = require('../utills/constant')
  * @returns -> whether the request is valid or not
  */
 
-const validateCreateMovieRequest = async (req, res) => {
+const validateCreateMovieRequest = async (req, res, next) => {
   // validate movie name 
   if (!req.body.name) {
     badRequestResponse.err = 'name of the movie is not present in the request '
