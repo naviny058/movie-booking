@@ -1,3 +1,9 @@
+const USER_STATUS = {
+  approved: "APPROVED",
+  pending: "PENDING",
+  rejected: "REJECTED"
+};
+
 const STATUS_CODES = {
   OK: 200,
   INTERNAL_SERVER_ERROR: 500,
@@ -10,6 +16,26 @@ const STATUS_CODES = {
   GONE: 410,
   PAYMENT_REQUIRED: 402
 }
+const USER_ROLE = {
+  customer: "CUSTOMER",
+  admin: "ADMIN",
+  client: "CLIENT"
+}
+const BOOKING_STATUS = {
+  cancelled: "CANCELLED",
+  successfull: "SUCCESSFULL",
+  processing: "IN_PROCESS",
+  expired: "EXPIRED"
+}
+const PAYMENT_STATUS = {
+  failed: "FAILED",
+  success: "SUCCESS",
+  pending: "PENDING"
+}
 module.exports = {
   STATUS: STATUS_CODES,
+  USER_ROLE,
+  USER_STATUS,
+  BOOKING_STATUS,
+  PAYMENT_STATUS
 }
