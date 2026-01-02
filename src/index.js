@@ -5,6 +5,7 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 
 const MovieRoutes = require('./routes/movie.route')
+const TheatreRoutes = require('./routes/theatre.route')
 console.log(process.env.PORT)
 const app = express();
 
@@ -16,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 MovieRoutes(app); // invoking movie routes
-
+TheatreRoutes(app);
 app.get('/', (req, res) => {
   res.send('Home')
 })
