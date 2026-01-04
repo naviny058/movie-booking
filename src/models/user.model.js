@@ -19,26 +19,35 @@ const userSchema = new mongoose.Schema({
     required: true
   },
   password: {
-    type: string,
+    type: String,
     requried: true,
     minLength: 6,
   },
   userRole: {
-    type: string,
+    type: String,
     required: true,
     enums: {
       values: [USER_ROLE.client, USER_ROLE.customer, USER_ROLE.admin],
       message: 'Inavalid user role given'
     },
-    default: USER_STATUS.approved
+    default: USER_ROLE.customer
   },
+  userStatus: {
+    type: String,
+    required: true,
+    enum: {
+      values: [USER_STATUS.approved, USER_STATUS.pending, USER_STATUS.rejected],
+      message: "Invalid status for user given"
+    },
+    default: USER_STATUS.pending
+  }
 }, { timestamps: true })
 
-userSchema.pre('save', async function (next) {
+userSchema.pre('save', async function () {
   // a trigger to encrypt the plain password before saving the user
+  if (!this.isModified('password')) return;
   const hash = await bcrypt.hash(this.password, 10);
   this.password = hash;
-  next();
 });
 /**
  * This is going to be an instance method for user, to compare a password
@@ -46,7 +55,7 @@ userSchema.pre('save', async function (next) {
  * @param plainPassword -> input password given by user in sign in request
  * @returns boolean denoting whether passwords are same or not ?
  */
-userSchema.method.isValidPassword = async function (plainPassword) {
+userSchema.methods.isValidPassword = async function (plainPassword) {
   const currentUser = this;
   const compare = await bcrypt.compare(plainPassword, currentUser.password);
   return compare;
