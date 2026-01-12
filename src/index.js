@@ -4,11 +4,11 @@ const cors = require('cors')
 require('dotenv').config()
 const mongoose = require('mongoose')
 
-const MovieRoutes = require('./routes/movie.route')
-const TheatreRoutes = require('./routes/theatre.route')
-const UserRoutes = require('./routes/user.route')
-const AuthRoutes = require('./routes/auth.route')
-
+const movieRoutes = require('./routes/movie.route')
+const theatreRoutes = require('./routes/theatre.route')
+const userRoutes = require('./routes/user.route')
+const authRoutes = require('./routes/auth.route')
+const showRoutes = require('./routes/show.route')
 
 const app = express();
 
@@ -19,11 +19,11 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
-AuthRoutes(app);
-MovieRoutes(app); // invoking movie routes
-TheatreRoutes(app);
-UserRoutes(app);
-
+authRoutes(app);
+movieRoutes(app); // invoking movie routes
+theatreRoutes(app);
+userRoutes(app);
+showRoutes(app);
 app.get('/', (req, res) => {
   res.send('Home')
 })

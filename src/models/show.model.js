@@ -30,6 +30,6 @@ const showSchema = new mongoose.Schema({
     type: String,
   },
 }, { timestamps: true })
-const Show = mongoose.model('Theatre', showSchema);
+const Show = mongoose.model('Show', showSchema);
 
 module.exports = Show;

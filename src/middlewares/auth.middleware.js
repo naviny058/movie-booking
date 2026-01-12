@@ -1,5 +1,5 @@
 const { errorResponseBody } = require('../utills/responsebody')
-const { STATUS } = require('../utills/constant')
+const { STATUS, USER_ROLE } = require('../utills/constant')
 const userServices = require('../services/user.service')
 
 const jwt = require('jsonwebtoken')
@@ -98,10 +98,18 @@ const validateResetPassword = (req, res, next) => {
   }
   next()
 }
-// const isAuthenticate = (req,res,next)=>{}
+const isAdminOrClient = (req, res, next) => {
+  const user = userServices.getUserById(req.user);
+  if (user.userRole != USER_ROLE.admin && user.userRole != USER_ROLE.client) {
+    errorResponseBody.err = "User is neither a client not an admin, cannot proceed with the request";
+    return res.status(STATUS.UNAUTHORISED).json(errorResponseBody);
+  }
+  next();
+}
 module.exports = {
   validateRegisterRequest,
   validateSignInRequest,
   isAuthenticate,
   validateResetPassword,
+  isAdminOrClient,
 }
