@@ -135,9 +135,66 @@ const updateTheatre = async (id, data) => {
  * @param insert -> boolean that tells whether we want insert movies or remove them
  * @returns -> updated theatre object
  */
-const updateMoviesInTheatres = async (data) => { }
-const getMoviesInATheatre = async (data) => { }
-const checkMovieInATheatre = async (data) => { }
+const updateMoviesInTheatres = async (theatreId, movieIds, insert) => {
+  try {
+    let theatre;
+    if (insert) {
+      //we need to add movie
+      theatre = await Theatre.findByIdAndUpdate(
+        { _id: theatreId },
+        { $addToSet: { movies: { $each: movieIds } } },
+        { new: true }
+      );
+    } else {
+      //we need to remove movie
+      theatre = await theatre.findByIdAndUpdate(
+        { _id: theatreId },
+        { $pull: { movies: { $in: movieIds } } },
+        { new: true }
+      )
+    }
+    return theatre.populate('movies')
+  } catch (error) {
+    if (error.name == 'TypeError') {
+      throw {
+        code: STATUS.NOT_FOUND,
+        err: 'No theatre found for the given id'
+      }
+    }
+    console.log("Error is", error);
+    throw error;
+  }
+}
+const getMoviesInATheatre = async (id) => {
+  try {
+    const theatre = await Theatre.findById(id, { name: 1, movies: 1, address: 1 }).populate('movies')
+    if (!theatre) {
+      throw {
+        err: "No Theatre with the given id found",
+        code: STATUS.NOT_FOUND
+      }
+    }
+    return theatre;
+  } catch (error) {
+    console.log("error is ", error)
+    throw error;
+  }
+}
+const checkMovieInATheatre = async (theatreId, movieId) => {
+  try {
+    const response = await Theatre.findById(theatreId)
+    if (!response) {
+      throw {
+        err: "No such theatre found for the given id",
+        code: STATUS.NOT_FOUND
+      }
+    }
+    return response.movies.indexOf(movieId) != -1;
+  } catch (error) {
+    console.log(error)
+    throw error;
+  }
+}
 module.exports = {
   createTheatre,
   deleteTheatre,
