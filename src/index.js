@@ -7,7 +7,9 @@ const mongoose = require('mongoose')
 const MovieRoutes = require('./routes/movie.route')
 const TheatreRoutes = require('./routes/theatre.route')
 const UserRoutes = require('./routes/user.route')
-console.log(process.env.PORT)
+const AuthRoutes = require('./routes/auth.route')
+
+
 const app = express();
 
 
@@ -15,8 +17,9 @@ app.use(cors())
 
 // configurign body parser
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
+AuthRoutes(app);
 MovieRoutes(app); // invoking movie routes
 TheatreRoutes(app);
 UserRoutes(app);
