@@ -5,17 +5,17 @@ const { BOOKING_STATUS } = require('../utills/constant')
  */
 const bookingSchema = new mongoose.Schema({
   theatreId: {
-    type: [mongoose.Schema.ObjectId],
+    type: mongoose.Schema.ObjectId,
     ref: 'Theatre',
     required: true,
   },
   movieId: {
-    type: [mongoose.Schema.ObjectId],
+    type: mongoose.Schema.ObjectId,
     ref: 'Movie',
     required: true,
   },
   userId: {
-    type: [mongoose.Schema.ObjectId],
+    type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: true,
   },
@@ -32,7 +32,7 @@ const bookingSchema = new mongoose.Schema({
     required: true,
   },
   status: {
-    type: string,
+    type: String,
     required: true,
     enum: {
       values: [BOOKING_STATUS.processing, BOOKING_STATUS.cancelled, BOOKING_STATUS.successfull, BOOKING_STATUS.expired],

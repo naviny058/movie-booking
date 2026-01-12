@@ -98,10 +98,18 @@ const validateResetPassword = (req, res, next) => {
   }
   next()
 }
-const isAdminOrClient = (req, res, next) => {
-  const user = userServices.getUserById(req.user);
+const isAdminOrClient = async (req, res, next) => {
+  const user = await userServices.getUserById(req.user);
   if (user.userRole != USER_ROLE.admin && user.userRole != USER_ROLE.client) {
-    errorResponseBody.err = "User is neither a client not an admin, cannot proceed with the request";
+    errorResponseBody.err = `User is neither a client not an admin, cannot proceed with the request ${user.userRole} `;
+    return res.status(STATUS.UNAUTHORISED).json(errorResponseBody);
+  }
+  next();
+}
+const isAdmin = (req, res, next) => {
+  const user = userServices.getUserById(req.user);
+  if (user.userRole != USER_ROLE.admin) {
+    errorResponseBody.err = `User is not an admin, cannot proceed with the request`;
     return res.status(STATUS.UNAUTHORISED).json(errorResponseBody);
   }
   next();
@@ -112,4 +120,5 @@ module.exports = {
   isAuthenticate,
   validateResetPassword,
   isAdminOrClient,
+  isAdmin,
 }

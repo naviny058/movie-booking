@@ -4,11 +4,11 @@ const mongoose = require('mongoose')
  */
 const showSchema = new mongoose.Schema({
   theatreId: {
-    type: [mongoose.Schema.ObjectId],
+    type: mongoose.Schema.ObjectId,
     ref: 'Theatre',
   },
   movieId: {
-    type: [mongoose.Schema.ObjectId],
+    type: mongoose.Schema.ObjectId,
     ref: 'Movie'
   },
   timing: {

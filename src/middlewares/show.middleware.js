@@ -13,7 +13,7 @@ const validateShowRequest = (req, res, next) => {
     return res.status(STATUS.BAD_REQUEST).json(errorResponseBody);
   }
   // validate movie id 
-  if (!req.body.movie) {
+  if (!req.body.movieId) {
     errorResponseBody.err = "No movie id provided";
     return res.status(STATUS.BAD_REQUEST).json(errorResponseBody);
   }
